@@ -21,14 +21,14 @@ struct CharacterModel: Codable {
     }
 
     init?(characterData: Result) {
-        id = characterData.id
-        name = characterData.name
-        status = characterData.status
-        species = characterData.species
-        gender = characterData.gender
-        location = characterData.location.name
-        image = characterData.image
-        episode = characterData.episode
+        id = characterData.id ?? 0
+        name = characterData.name ?? ""
+        status = characterData.status ?? ""
+        species = characterData.species ?? ""
+        gender = characterData.gender ?? ""
+        location = characterData.location?.name ?? ""
+        image = characterData.image ?? ""
+        episode = characterData.episode ?? [""]
     }
 }
 

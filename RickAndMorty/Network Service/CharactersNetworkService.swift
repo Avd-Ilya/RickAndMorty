@@ -32,20 +32,19 @@ class CharactersNetworkService {
     }
     
     func parseJSON(withData data: Data) -> [CharacterModel]? {
-        let decoder = JSONDecoder()
-        do {
-            let charactersModelData = try decoder.decode(CharactersModelData.self, from: data)
-            var characters = [CharacterModel]()
-            for characterData in charactersModelData.results {
-                guard let character = CharacterModel(characterData: characterData) else {
-                    return nil
-                }
-                characters.append(character)
+
+        let str = String(decoding: data, as: UTF8.self)
+        
+        let charactersModelData = CharactersModelDataMap(JSONString: str)
+        var characters = [CharacterModel]()
+        guard let charactersModels = charactersModelData?.results else {return nil}
+        for characterData in charactersModels {
+            guard let character = CharacterModel(characterData: characterData) else {
+                return nil
             }
-            return characters
-        } catch let error as NSError {
-            print(error.localizedDescription)
+            characters.append(character)
         }
-        return nil
+        return characters
+
     }
 }
