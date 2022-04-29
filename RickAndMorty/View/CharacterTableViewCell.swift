@@ -1,15 +1,16 @@
 //
-//  CharacterCell.swift
+//  CharacterTableViewCell.swift
 //  RickAndMorty
 //
-//  Created by Avdeev Ilya Aleksandrovich on 15.04.2022.
+//  Created by Avdeev Ilya Aleksandrovich on 28.04.2022.
 //
 
-import UIKit
+import Foundation
+import CollectionAndTableViewCompatible
 
-final class CharacterCell: UITableViewCell {
+class CharacterTableViewCell: UITableViewCell, Configurable {
     
-    static let reusedId = "CharacterCell"
+    var model: CharacterCellModel?
     
     let baseView: UIView = {
         let view = UIView()
@@ -48,6 +49,24 @@ final class CharacterCell: UITableViewCell {
         return label
     }()
     
+    func configure(withModel model: CharacterCellModel) {
+        self.model = model
+        
+        let url = URL(string: model.image)
+        DispatchQueue.global().async {
+            let data = try? Data(contentsOf: url!)
+            DispatchQueue.main.async {
+                guard let data = data else {return}
+                self.characterImageView.image = UIImage(data: data)
+            }
+        }
+        
+        self.nameLabel.text = model.name
+        self.speciesLabel.text = model.species
+        self.genderLabel.text = model.gender
+        
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -56,13 +75,20 @@ final class CharacterCell: UITableViewCell {
         baseView.addSubview(nameLabel)
         baseView.addSubview(speciesLabel)
         baseView.addSubview(genderLabel)
-                
+        
+        addConstraints()
+    }
+    
+    func addConstraints() {
+
+        self.heightAnchor.constraint(equalToConstant: 110).isActive = true
+        
         //baseView constraints
         baseView.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
         baseView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
         baseView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5).isActive = true
         baseView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
-        
+       
         //characterImageView constraints
         characterImageView.topAnchor.constraint(equalTo: baseView.topAnchor).isActive = true
         characterImageView.leadingAnchor.constraint(equalTo: baseView.leadingAnchor).isActive = true
@@ -88,24 +114,7 @@ final class CharacterCell: UITableViewCell {
         genderLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
-    func configure(with character: CharacterModel){
-        let url = URL(string: character.image)
-        DispatchQueue.global().async {
-            let data = try? Data(contentsOf: url!)
-            DispatchQueue.main.async {
-                guard let image = UIImage(data: data!) else {return}
-                self.characterImageView.image = image
-            }
-        }
-        
-        self.nameLabel.text = character.name
-        self.speciesLabel.text = character.species
-        self.genderLabel.text = character.gender
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-

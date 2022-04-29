@@ -96,7 +96,8 @@ class DetailsCharactersViewController: UIViewController {
         DispatchQueue.global().async {
             let data = try? Data(contentsOf: url!)
             DispatchQueue.main.async {
-                self.characterImageView.image = UIImage(data: data!)
+                guard let data = data else {return}
+                self.characterImageView.image = UIImage(data: data)
             }
         }
         
