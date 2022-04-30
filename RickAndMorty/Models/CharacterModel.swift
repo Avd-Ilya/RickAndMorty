@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct CharacterModel: Codable {
+struct CharacterModel {
     let id: Int
     let name: String
-    let status: String //Status
-    let species: String //Species
-    let gender: String //Gender
-    let location: String //Location
+    let status: String
+    let species: String
+    let gender: String
+    let location: String 
     let image: String
     let episode: [String]
     var numberOfEpisodeString: String {

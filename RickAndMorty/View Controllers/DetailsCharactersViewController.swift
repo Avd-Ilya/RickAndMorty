@@ -11,75 +11,14 @@ class DetailsCharactersViewController: UIViewController {
     
     var characters = [CharacterModel]()
     
-    let baseView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        return view
-    }()
-    
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        return label
-    }()
-    
-    let speciesLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 25)
-        label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        return label
-    }()
-    
-    let genderLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 25)
-        label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        return label
-    }()
-    
-    let statusLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 25)
-        label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        return label
-    }()
-    
-    let locationLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 25)
-        label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        return label
-    }()
-    
-    let numberLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 25)
-        label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        return label
-    }()
-    
-    let characterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        imageView.sizeToFit()
-        return imageView
-    }()
+    let baseView = UIView()
+    let nameLabel = UILabel()
+    let speciesLabel = UILabel()
+    let genderLabel = UILabel()
+    let statusLabel = UILabel()
+    let locationLabel = UILabel()
+    let numberLabel = UILabel()
+    let characterImageView = UIImageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,7 +49,48 @@ class DetailsCharactersViewController: UIViewController {
         baseView.addSubview(locationLabel)
         baseView.addSubview(numberLabel)
         
+        setupUI()
         addConstraints()
+    }
+    
+    func setupUI() {
+        baseView.translatesAutoresizingMaskIntoConstraints = false
+        baseView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        nameLabel.textAlignment = .center
+        nameLabel.numberOfLines = 0
+        nameLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
+        speciesLabel.translatesAutoresizingMaskIntoConstraints = false
+        speciesLabel.font = UIFont.systemFont(ofSize: 25)
+        speciesLabel.textAlignment = .center
+        speciesLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
+        genderLabel.translatesAutoresizingMaskIntoConstraints = false
+        genderLabel.font = UIFont.systemFont(ofSize: 25)
+        genderLabel.textAlignment = .center
+        genderLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusLabel.font = UIFont.systemFont(ofSize: 25)
+        statusLabel.textAlignment = .center
+        statusLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
+        locationLabel.font = UIFont.systemFont(ofSize: 25)
+        locationLabel.textAlignment = .center
+        locationLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
+        numberLabel.translatesAutoresizingMaskIntoConstraints = false
+        numberLabel.font = UIFont.systemFont(ofSize: 25)
+        numberLabel.textAlignment = .center
+        numberLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
+        characterImageView.translatesAutoresizingMaskIntoConstraints = false
+        characterImageView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        characterImageView.sizeToFit()
     }
     
     func addConstraints() {

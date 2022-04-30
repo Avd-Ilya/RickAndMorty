@@ -1,0 +1,20 @@
+PODS:
+  - CollectionAndTableViewCompatible (0.2.2)
+  - ObjectMapper (3.5.3)
+
+DEPENDENCIES:
+  - CollectionAndTableViewCompatible
+  - ObjectMapper (~> 3.5)
+
+SPEC REPOS:
+  trunk:
+    - CollectionAndTableViewCompatible
+    - ObjectMapper
+
+SPEC CHECKSUMS:
+  CollectionAndTableViewCompatible: 10a37e76c29faa193595f7d345e4353473e4ce92
+  ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
+
+PODFILE CHECKSUM: 0ede29a1307674dcfae3c3b02b5efd7863ae409f
+
+COCOAPODS: 1.11.3

@@ -8,10 +8,9 @@
 import Foundation
 import CollectionAndTableViewCompatible
 
-class CharacterCellModel: TableViewCompatible {
+class CharacterTableCellModel: TableViewCompatible {
     
     var reuseIdentifier: String {
-        
         return CellIdentifier.CharacterCellIdentifier
     }
     

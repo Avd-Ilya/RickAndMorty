@@ -10,46 +10,28 @@ import CollectionAndTableViewCompatible
 
 class CharacterTableViewCell: UITableViewCell, Configurable {
     
-    var model: CharacterCellModel?
+    var model: CharacterTableCellModel?
     
-    let baseView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    let baseView = UIView()
+    let characterImageView = UIImageView()
+    let nameLabel = UILabel()
+    let speciesLabel = UILabel()
+    let genderLabel = UILabel()
     
-    let characterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        addSubview(baseView)
+        baseView.addSubview(characterImageView)
+        baseView.addSubview(nameLabel)
+        baseView.addSubview(speciesLabel)
+        baseView.addSubview(genderLabel)
+        
+        setupUI()
+        addConstraints()
+    }
     
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        label.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        return label
-    }()
-    
-    let speciesLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 17)
-        label.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        return label
-    }()
-    
-    let genderLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 17)
-        label.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        return label
-    }()
-    
-    func configure(withModel model: CharacterCellModel) {
+    func configure(withModel model: CharacterTableCellModel) {
         self.model = model
         
         let url = URL(string: model.image)
@@ -67,16 +49,23 @@ class CharacterTableViewCell: UITableViewCell, Configurable {
         
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    func setupUI() {
+        baseView.translatesAutoresizingMaskIntoConstraints = false
         
-        addSubview(baseView)
-        baseView.addSubview(characterImageView)
-        baseView.addSubview(nameLabel)
-        baseView.addSubview(speciesLabel)
-        baseView.addSubview(genderLabel)
+        characterImageView.translatesAutoresizingMaskIntoConstraints = false
+        characterImageView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         
-        addConstraints()
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        nameLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
+        speciesLabel.translatesAutoresizingMaskIntoConstraints = false
+        speciesLabel.font = UIFont.systemFont(ofSize: 17)
+        speciesLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        
+        genderLabel.translatesAutoresizingMaskIntoConstraints = false
+        genderLabel.font = UIFont.systemFont(ofSize: 17)
+        genderLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
     }
     
     func addConstraints() {

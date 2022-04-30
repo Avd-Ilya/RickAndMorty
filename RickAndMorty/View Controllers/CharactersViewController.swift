@@ -15,7 +15,7 @@ class CharactersViewController: UIViewController {
     var characters = [CharacterModel]()
     let charactersNetworkService = CharactersNetworkService()
     
-    var data: MyTableViewDataSource!
+    var data: CharacterTableViewDataSource!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,17 +23,14 @@ class CharactersViewController: UIViewController {
         self.myTableView = UITableView(frame: view.bounds, style: .plain)
         self.myTableView.delegate = self
         view.addSubview(myTableView)
-    
-        self.myTableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CellIdentifier.CharacterCellIdentifier)
-        
+            
         self.charactersNetworkService.fetchCharacters()
         charactersNetworkService.onCompletion = { /*[weak self]*/ characters in
             
-            self.data = MyTableViewDataSource(characters: characters, tableView: self.myTableView)
-            self.data.prepareData()
             self.characters = characters
-            self.myTableView.reloadData()
-        
+            
+            let charactersCells = characters.map({CharacterTableCellModel(character: $0)})
+            self.data = CharacterTableViewDataSource(characters: charactersCells, tableView: self.myTableView)
         }
     }
 }
