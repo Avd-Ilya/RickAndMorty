@@ -11,27 +11,17 @@ import CollectionAndTableViewCompatible
 class CharactersViewController: UIViewController {
     
     var myTableView = UITableView()
-    
-    var characters = [CharacterModel]()
-    let charactersNetworkService = CharactersNetworkService()
-    
-    var data: CharacterTableViewDataSource!
-    
+    var viewModel: CharacterViewModel!
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.viewModel = CharacterViewModel()
         
         self.myTableView = UITableView(frame: view.bounds, style: .plain)
         self.myTableView.delegate = self
         view.addSubview(myTableView)
             
-        self.charactersNetworkService.fetchCharacters()
-        charactersNetworkService.onCompletion = { /*[weak self]*/ characters in
-            
-            self.characters = characters
-            
-            let charactersCells = characters.map({CharacterTableCellModel(character: $0)})
-            self.data = CharacterTableViewDataSource(characters: charactersCells, tableView: self.myTableView)
-        }
+        self.viewModel.fetchCharacters(tableView: myTableView)
     }
 }
 
@@ -39,7 +29,8 @@ extension CharactersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailCharacterVC = DetailsCharactersViewController()
-        detailCharacterVC.characters.append(characters[indexPath.row])
+        let viewModel = CharacterDetailViewModel(character: self.viewModel.characters[indexPath.row])
+        detailCharacterVC.viewModel = viewModel
         self.navigationController?.pushViewController(detailCharacterVC, animated: true)
     }
     

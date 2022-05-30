@@ -31,6 +31,7 @@ class CharacterTableCellModel: TableViewCompatible {
     convenience init(character: CharacterModel) {
         self.init(name: character.name, species: character.species, gender: character.gender, image: character.image)
     }
+
     
     func cellForTableView(tableView: UITableView, atIndexPath indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! CharacterTableViewCell

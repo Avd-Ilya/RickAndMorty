@@ -42,7 +42,6 @@ class CharacterTableViewCell: UITableViewCell, Configurable {
                 self.characterImageView.image = UIImage(data: data)
             }
         }
-        
         self.nameLabel.text = model.name
         self.speciesLabel.text = model.species
         self.genderLabel.text = model.gender

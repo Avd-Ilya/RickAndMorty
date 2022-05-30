@@ -9,7 +9,7 @@ import UIKit
 
 class DetailsCharactersViewController: UIViewController {
     
-    var characters = [CharacterModel]()
+    var viewModel: CharacterDetailViewModel?
     
     let baseView = UIView()
     let nameLabel = UILabel()
@@ -22,16 +22,16 @@ class DetailsCharactersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let character = characters.first else { return }
+        guard let viewModel = viewModel else { return }
         
-        self.nameLabel.text = character.name
-        self.speciesLabel.text = character.species
-        self.genderLabel.text = character.gender
-        self.statusLabel.text = character.status
-        self.locationLabel.text = character.location
-        self.numberLabel.text = character.numberOfEpisodeString
+        self.nameLabel.text = viewModel.character.name
+        self.speciesLabel.text = viewModel.character.species
+        self.genderLabel.text = viewModel.character.gender
+        self.statusLabel.text = viewModel.character.status
+        self.locationLabel.text = viewModel.character.location
+        self.numberLabel.text = viewModel.character.numberOfEpisodeString
 
-        let url = URL(string: character.image)
+        let url = URL(string: viewModel.character.image)
         DispatchQueue.global().async {
             let data = try? Data(contentsOf: url!)
             DispatchQueue.main.async {
