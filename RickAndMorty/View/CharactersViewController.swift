@@ -29,8 +29,10 @@ extension CharactersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailCharacterVC = DetailsCharactersViewController()
-        let viewModel = CharacterDetailViewModel(character: self.viewModel.characters[indexPath.row])
-        detailCharacterVC.viewModel = viewModel
+        
+        let characterDetailViewModel = self.viewModel.getCharacterDetailViewModel(idCharacter: indexPath.row)
+
+        detailCharacterVC.viewModel = characterDetailViewModel
         self.navigationController?.pushViewController(detailCharacterVC, animated: true)
     }
     

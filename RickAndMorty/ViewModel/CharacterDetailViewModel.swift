@@ -6,11 +6,11 @@
 //
 
 import Foundation
+import Combine
 
 class CharacterDetailViewModel {
-    var character: CharacterModel
-    
-    init(character: CharacterModel) {
-        self.character = character
-    }
+
+    @Published var character = CharacterModel()
+    var cancellable: AnyCancellable?
+
 }

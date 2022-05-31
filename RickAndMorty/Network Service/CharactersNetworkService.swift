@@ -6,29 +6,33 @@
 //
 
 import Foundation
+import Combine
 
 class CharactersNetworkService {
     
     var onCompletion: (([CharacterModel]) -> Void)?
     
-    func fetchCharacters() {
-        let URLString = "https://rickandmortyapi.com/api/character"
-        performRequest(withURLString: URLString)
-    }
-    
-    func performRequest(withURLString urlString: String) {
-        guard let url = URL(string: urlString) else { return }
-        let sesseiom = URLSession(configuration: .default)
-        let task = sesseiom.dataTask(with: url) { data, response, error in
-            if let data = data {
+    func fetchCharacters() -> AnyPublisher<[CharacterModel], Never> {
+
+        let urlString = "https://rickandmortyapi.com/api/character"
+               
+        guard let url = URL(string: urlString) else { fatalError("invalid URL") }
+        
+        let publisher = URLSession.shared.dataTaskPublisher(for: url)
+            .map {$0.data}
+            .compactMap { data -> [CharacterModel] in
                 if let characters = self.parseJSON(withData: data) {
-                    DispatchQueue.main.async {
-                        self.onCompletion?(characters)
-                    }
+                    return characters
+                } else {
+                    return [CharacterModel]()
                 }
             }
-        }
-        task.resume()
+            .catch({_ in
+                Just([])
+            })
+            .eraseToAnyPublisher()
+
+        return publisher
     }
     
     func parseJSON(withData data: Data) -> [CharacterModel]? {
@@ -45,6 +49,5 @@ class CharactersNetworkService {
             characters.append(character)
         }
         return characters
-
     }
 }

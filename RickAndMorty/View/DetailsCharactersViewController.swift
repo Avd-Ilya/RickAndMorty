@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Combine
 
 class DetailsCharactersViewController: UIViewController {
     
-    var viewModel: CharacterDetailViewModel?
+    var viewModel = CharacterDetailViewModel()
+    private var cancellable = Set<AnyCancellable>()
     
     let baseView = UIView()
     let nameLabel = UILabel()
@@ -22,23 +24,8 @@ class DetailsCharactersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let viewModel = viewModel else { return }
         
-        self.nameLabel.text = viewModel.character.name
-        self.speciesLabel.text = viewModel.character.species
-        self.genderLabel.text = viewModel.character.gender
-        self.statusLabel.text = viewModel.character.status
-        self.locationLabel.text = viewModel.character.location
-        self.numberLabel.text = viewModel.character.numberOfEpisodeString
-
-        let url = URL(string: viewModel.character.image)
-        DispatchQueue.global().async {
-            let data = try? Data(contentsOf: url!)
-            DispatchQueue.main.async {
-                guard let data = data else {return}
-                self.characterImageView.image = UIImage(data: data)
-            }
-        }
+        binding()
         
         view.addSubview(baseView)
         baseView.addSubview(nameLabel)
@@ -51,6 +38,32 @@ class DetailsCharactersViewController: UIViewController {
         
         setupUI()
         addConstraints()
+    }
+    
+    func binding() {
+        
+        viewModel.$character
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] value in
+                guard let self = self else { return }
+                
+                self.nameLabel.text = value.name
+                self.speciesLabel.text = value.species
+                self.genderLabel.text = value.gender
+                self.statusLabel.text = value.status
+                self.locationLabel.text = value.location
+                self.numberLabel.text = value.numberOfEpisodeString
+
+                let url = URL(string: value.image)
+                DispatchQueue.global().async {
+                    let data = try? Data(contentsOf: url!)
+                    DispatchQueue.main.async {
+                        guard let data = data else {return}
+                        self.characterImageView.image = UIImage(data: data)
+                    }
+                }
+            })
+            .store(in: &cancellable)
     }
     
     func setupUI() {
