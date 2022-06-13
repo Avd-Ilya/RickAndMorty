@@ -10,6 +10,7 @@ import Combine
 
 class CharacterDetailViewModel {
 
+    @Published var state = DetailsCharacterStateEnum.onAppear
     @Published var character = CharacterModel()
     var cancellable: AnyCancellable?
 

@@ -16,13 +16,16 @@ class CharacterViewModel {
     @Published var characters = [CharacterModel]()
     var cancellable: AnyCancellable?
 
+    @Published var state = CharactersState.onAppear
     
     func fetchCharacters(tableView: UITableView) {
+        self.state = .onLoading
         self.cancellable = self.charactersNetworkService.fetchCharacters()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
+                    self.state = .error
                     print(error)
                 case .finished:
                     print("Success")
@@ -32,13 +35,23 @@ class CharacterViewModel {
                 self.characters = value
                 let charactersCells = value.map({CharacterTableCellModel(character: $0)})
                 self.data = CharacterTableViewDataSource(characters: charactersCells, tableView: tableView)
+                
+                if value.isEmpty {
+                    self.state = .error
+                } else {
+                    self.state = .onLoaded
+                }
+               
             })
     }
     
     func getCharacterDetailViewModel(idCharacter: Int) -> CharacterDetailViewModel{
         let characterDetailViewModel = CharacterDetailViewModel()
         characterDetailViewModel.cancellable = self.$characters.sink(receiveValue: { value in
+            
             characterDetailViewModel.character = value[idCharacter]
+            characterDetailViewModel.state = .dataLoaded
+            
         })
         
         return characterDetailViewModel

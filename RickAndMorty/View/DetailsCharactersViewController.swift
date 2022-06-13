@@ -10,6 +10,8 @@ import Combine
 
 class DetailsCharactersViewController: UIViewController {
     
+    public var didFinish: (() -> Void)?
+    
     var viewModel = CharacterDetailViewModel()
     private var cancellable = Set<AnyCancellable>()
     
@@ -25,8 +27,26 @@ class DetailsCharactersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        binding()
+        addUI()
         
+        viewModel.$state
+            .removeDuplicates()
+            .sink(receiveValue: { [weak self] value in
+                guard let self = self else { return }
+                switch value {
+                case .onAppear:
+                    print("onAppear")
+                case .dataLoaded:
+                    self.binding()
+                    print("dataLoaded")
+                case .error:
+                    print("ERROR")
+                }
+            })
+            .store(in: &cancellable)
+    }
+    
+    func addUI() {
         view.addSubview(baseView)
         baseView.addSubview(nameLabel)
         baseView.addSubview(characterImageView)
