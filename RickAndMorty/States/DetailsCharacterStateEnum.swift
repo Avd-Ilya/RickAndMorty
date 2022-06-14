@@ -7,8 +7,9 @@
 
 import Foundation
 
-enum DetailsCharacterStateEnum {
-    case onAppear
-    case dataLoaded
+enum DetailsCharacterState {
+    case idle
+    case Loading
+    case Loaded
     case error
 }

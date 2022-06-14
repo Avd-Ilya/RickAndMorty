@@ -35,6 +35,29 @@ class CharactersNetworkService {
         return publisher
     }
     
+    func fetchCharacter(id: Int) -> AnyPublisher<[CharacterModel], Never> {
+
+        let urlString = "https://rickandmortyapi.com/api/character/\(id)"
+               
+        guard let url = URL(string: urlString) else { fatalError("invalid URL") }
+        
+        let publisher = URLSession.shared.dataTaskPublisher(for: url)
+            .map {$0.data}
+            .compactMap { data -> [CharacterModel] in
+                if let character = self.characterParseJSON(withData: data) {
+                    return [character]
+                } else {
+                    return [CharacterModel]()
+                }
+            }
+            .catch({_ in
+                Just([])
+            })
+            .eraseToAnyPublisher()
+
+        return publisher
+    }
+    
     func parseJSON(withData data: Data) -> [CharacterModel]? {
 
         let str = String(decoding: data, as: UTF8.self)
@@ -49,5 +72,17 @@ class CharactersNetworkService {
             characters.append(character)
         }
         return characters
+    }
+    
+    func characterParseJSON(withData data: Data) -> CharacterModel? {
+
+        let str = String(decoding: data, as: UTF8.self)
+
+        let charactersModelData = Result(JSONString: str)
+        
+        guard let characterModel = charactersModelData else {return nil}
+
+        let character = CharacterModel(characterData: characterModel)
+        return character
     }
 }

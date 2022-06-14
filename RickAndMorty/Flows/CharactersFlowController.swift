@@ -18,14 +18,13 @@ class CharactersFlowController: UINavigationController {
     
     public func start() {
         guard let charactersController = self.viewControllers.first as? CharactersViewController else { return }
-        
-        charactersController.didSelectRow = { [weak self] idCharacter in
+                
+        charactersController.viewModel.didSelectRow = { [weak self] id in
             guard let self = self else { return }
             
             let detailsCharacterVC = DetailsCharactersViewController()
-            let characterDetailViewModel = charactersController.viewModel.getCharacterDetailViewModel(idCharacter: idCharacter)
-            detailsCharacterVC.viewModel = characterDetailViewModel
-        
+            detailsCharacterVC.viewModel.fetchCharacter(id: id)
+            
             self.pushViewController(detailsCharacterVC, animated: true)
         }
     }

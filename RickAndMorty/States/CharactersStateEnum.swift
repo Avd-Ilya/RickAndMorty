@@ -8,8 +8,8 @@
 import Foundation
 
 enum CharactersState {
-    case onAppear
-    case onLoading
-    case onLoaded
+    case idle
+    case Loading
+    case Loaded
     case error
 }

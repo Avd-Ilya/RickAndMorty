@@ -9,9 +9,7 @@ import UIKit
 import Combine
 
 class DetailsCharactersViewController: UIViewController {
-    
-    public var didFinish: (() -> Void)?
-    
+        
     var viewModel = CharacterDetailViewModel()
     private var cancellable = Set<AnyCancellable>()
     
@@ -33,17 +31,26 @@ class DetailsCharactersViewController: UIViewController {
             .removeDuplicates()
             .sink(receiveValue: { [weak self] value in
                 guard let self = self else { return }
-                switch value {
-                case .onAppear:
-                    print("onAppear")
-                case .dataLoaded:
-                    self.binding()
-                    print("dataLoaded")
-                case .error:
-                    print("ERROR")
-                }
+                
+                self.render(state: value)
             })
             .store(in: &cancellable)
+    }
+    
+    private func render(state: DetailsCharacterState) {
+        switch state {
+        case .idle:
+            print("idle")
+        case .Loading:
+            let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: true)
+            print("Loading data")
+        case .Loaded:
+            let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: false)
+            self.binding()
+            print("Data loaded")
+        case .error:
+            print("ERROR")
+        }
     }
     
     func addUI() {
