@@ -54,9 +54,9 @@ class DetailsCharactersViewController: UIViewController {
         case .loading:
             let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: true)
             print("Loading data")
-        case .loaded:
+        case .loaded(let character):
             let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: false)
-            self.binding()
+            self.binding(character: character)
             print("Data loaded")
         case .error(let description):
             let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: false)
@@ -78,31 +78,25 @@ class DetailsCharactersViewController: UIViewController {
         addConstraints()
     }
     
-    func binding() {
+    func binding(character: CharacterModel) {
         
-        viewModel.$character
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [weak self] value in
-                guard let self = self else { return }
-                
-                self.nameLabel.text = value.name
-                self.speciesLabel.text = value.species
-                self.genderLabel.text = value.gender
-                self.statusLabel.text = value.status
-                self.locationLabel.text = value.location
-                self.numberLabel.text = value.numberOfEpisodeString
+        self.nameLabel.text = character.name
+        self.speciesLabel.text = character.species
+        self.genderLabel.text = character.gender
+        self.statusLabel.text = character.status
+        self.locationLabel.text = character.location
+        self.numberLabel.text = character.numberOfEpisodeString
 
-                if let url = URL(string: value.image) {
-                    DispatchQueue.global().async {
-                        let data = try? Data(contentsOf: url)
-                        DispatchQueue.main.async {
-                            guard let data = data else {return}
-                            self.characterImageView.image = UIImage(data: data)
-                        }
-                    }
+        if let url = URL(string: character.image) {
+            DispatchQueue.global().async {
+                let data = try? Data(contentsOf: url)
+                DispatchQueue.main.async {
+                    guard let data = data else {return}
+                    self.characterImageView.image = UIImage(data: data)
                 }
-            })
-            .store(in: &cancellable)
+            }
+        }
+        
     }
     
     func setupUI() {

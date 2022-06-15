@@ -14,7 +14,6 @@ class CharacterDetailViewModel {
     public var characterId: Int
     
     @Published var state = State.idle
-    @Published var character = CharacterModel()
     var cancellable: AnyCancellable?
 
     enum Event {
@@ -22,10 +21,26 @@ class CharacterDetailViewModel {
     }
     
     enum State: Equatable {
+        
         case idle
         case loading
-        case loaded
+        case loaded(CharacterModel)
         case error(String)
+        
+        static func == (lhs: CharacterDetailViewModel.State, rhs: CharacterDetailViewModel.State) -> Bool {
+            switch (lhs, rhs) {
+            case (.idle, .idle):
+                return true
+            case (.loading, .loading):
+                return true
+            case (.loaded(let lhsCharacter), .loaded(let rhsCharacter)):
+                return lhsCharacter.id == rhsCharacter.id
+            case (.error(let lhsError), .error(let rhsError)):
+                return lhsError == rhsError
+            default:
+                return false
+            }
+        }
     }
     
     init(characterId: Int) {
@@ -47,11 +62,9 @@ class CharacterDetailViewModel {
             }, receiveValue: { [weak self] value in
                 guard let self = self else { return }
                 
-                self.state = .loaded
+                guard let character = value.first else { return }
                 
-                if let character = value.first {
-                    self.character = character
-                }
+                self.state = .loaded(character)
             })
     }
     
