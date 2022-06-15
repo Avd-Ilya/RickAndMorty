@@ -16,12 +16,14 @@ class CharacterTableCellModel: TableViewCompatible {
     
     var selected: Bool = false
     
+    let id: Int
     let name: String
     let species: String
     let gender: String
     let image: String
     
-    init(name: String, species: String, gender: String, image: String) {
+    init(id: Int, name: String, species: String, gender: String, image: String) {
+        self.id = id
         self.name = name
         self.species = species
         self.gender = gender
@@ -29,7 +31,7 @@ class CharacterTableCellModel: TableViewCompatible {
     }
     
     convenience init(character: CharacterModel) {
-        self.init(name: character.name, species: character.species, gender: character.gender, image: character.image)
+        self.init(id: character.id, name: character.name, species: character.species, gender: character.gender, image: character.image)
     }
     
     func cellForTableView(tableView: UITableView, atIndexPath indexPath: IndexPath) -> UITableViewCell {

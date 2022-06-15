@@ -10,22 +10,34 @@ import Combine
 
 class CharacterViewModel {
     
-    public var didSelectRow: ((Int) -> Void)?
+    public var showCharacterDetails: ((Int) -> Void)?
     
     private let charactersNetworkService = CharactersNetworkService()
     var data: [TableViewCompatible] = []
 
-    @Published var state = CharactersState.idle
+    @Published var state = State.idle
     var cancellable: AnyCancellable?
     
+    enum Event {
+        case onAppear
+        case onShowDetails(Int)
+    }
+    
+    enum State: Equatable {
+        case idle
+        case loading
+        case loaded
+        case error(String)
+    }
+    
     func fetchCharacters() {
-        self.state = .Loading
+        self.state = .loading
         self.cancellable = self.charactersNetworkService.fetchCharacters()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
-                    self.state = .error
+                    self.state = .error(error.localizedDescription)
                     print(error)
                 case .finished:
                     print("Success")
@@ -36,24 +48,18 @@ class CharacterViewModel {
                 let charactersCells = value.map({CharacterTableCellModel(character: $0)})
                 self.data = charactersCells
                 
-                if value.isEmpty {
-                    self.state = .error
-                } else {
-                    self.state = .Loaded
-                }
-               
+                self.state = .loaded
             })
     }
     
-    func sendEvents(event: CharactersEvent, idCharacter: Int?) {
+    func sendEvent(event: Event) {
         switch event {
         case .onAppear:
             print("onAppear")
             fetchCharacters()
-        case .onShowDetails:
+        case .onShowDetails(let characterId):
             print("onShowDetails")
-            guard let id = idCharacter else { return }
-            self.didSelectRow?(id)
+            showCharacterDetails?(characterId)
         }
     }
 }

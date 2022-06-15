@@ -10,7 +10,7 @@ import Combine
 
 class DetailsCharactersViewController: UIViewController {
         
-    var viewModel = CharacterDetailViewModel()
+    var viewModel: CharacterDetailViewModel
     private var cancellable = Set<AnyCancellable>()
     
     let baseView = UIView()
@@ -22,9 +22,19 @@ class DetailsCharactersViewController: UIViewController {
     let numberLabel = UILabel()
     let characterImageView = UIImageView()
     
+    init(viewModel: CharacterDetailViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModel.sendEvent(event: .onAppear)
         addUI()
         
         viewModel.$state
@@ -37,19 +47,20 @@ class DetailsCharactersViewController: UIViewController {
             .store(in: &cancellable)
     }
     
-    private func render(state: DetailsCharacterState) {
+    private func render(state: CharacterDetailViewModel.State) {
         switch state {
         case .idle:
             print("idle")
-        case .Loading:
+        case .loading:
             let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: true)
             print("Loading data")
-        case .Loaded:
+        case .loaded:
             let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: false)
             self.binding()
             print("Data loaded")
-        case .error:
-            print("ERROR")
+        case .error(let description):
+            let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: false)
+            print("ERROR - \(description)")
         }
     }
     
@@ -81,12 +92,13 @@ class DetailsCharactersViewController: UIViewController {
                 self.locationLabel.text = value.location
                 self.numberLabel.text = value.numberOfEpisodeString
 
-                let url = URL(string: value.image)
-                DispatchQueue.global().async {
-                    let data = try? Data(contentsOf: url!)
-                    DispatchQueue.main.async {
-                        guard let data = data else {return}
-                        self.characterImageView.image = UIImage(data: data)
+                if let url = URL(string: value.image) {
+                    DispatchQueue.global().async {
+                        let data = try? Data(contentsOf: url)
+                        DispatchQueue.main.async {
+                            guard let data = data else {return}
+                            self.characterImageView.image = UIImage(data: data)
+                        }
                     }
                 }
             })

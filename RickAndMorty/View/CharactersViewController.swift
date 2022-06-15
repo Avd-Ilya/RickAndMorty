@@ -24,7 +24,7 @@ class CharactersViewController: UIViewController {
         self.myTableView.register(CharacterTableViewCell.self, forCellReuseIdentifier: CellIdentifier.CharacterCellIdentifier)
         view.addSubview(myTableView)
                     
-        viewModel.sendEvents(event: .onAppear, idCharacter: nil)
+        viewModel.sendEvent(event: .onAppear)
                 
         viewModel.$state
             .removeDuplicates()
@@ -36,19 +36,20 @@ class CharactersViewController: UIViewController {
             .store(in: &cancellable)
     }
     
-    private func render(state: CharactersState) {
+    private func render(state: CharacterViewModel.State) {
         switch state {
         case .idle:
             print("idle")
-        case .Loading:
+        case .loading:
             let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: true)
             print("Loading data")
-        case .Loaded:
+        case .loaded:
             let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: false)
             self.myTableView.reloadData()
             print("Data loaded")
-        case .error:
-            print("ERROR")
+        case .error(let description):
+            let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: false)
+            print("ERROR - \(description)")
         }
     }
 
@@ -57,7 +58,9 @@ class CharactersViewController: UIViewController {
 extension CharactersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.viewModel.sendEvents(event: .onShowDetails, idCharacter: indexPath.row + 1)
+        if let characterCellModel = viewModel.data[indexPath.row] as? CharacterTableCellModel {
+            viewModel.sendEvent(event: .onShowDetails(characterCellModel.id))
+        }
     }
     
 }
