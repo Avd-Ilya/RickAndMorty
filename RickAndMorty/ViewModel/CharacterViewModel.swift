@@ -12,7 +12,7 @@ class CharacterViewModel {
     
     public var showCharacterDetails: ((Int) -> Void)?
     
-    private let charactersNetworkService = CharactersNetworkService()
+    private let charactersNetworkService: CharactersNetworkServiceProtocol
     var data: [TableViewCompatible] = []
 
     @Published var state = State.idle
@@ -28,6 +28,10 @@ class CharacterViewModel {
         case loading
         case loaded
         case error(String)
+    }
+    
+    init(charactersNetworkService: CharactersNetworkServiceProtocol = CharactersNetworkService()) {
+        self.charactersNetworkService = charactersNetworkService
     }
     
     func fetchCharacters() {
@@ -47,7 +51,6 @@ class CharacterViewModel {
 
                 let charactersCells = value.map({CharacterTableCellModel(character: $0)})
                 self.data = charactersCells
-                
                 self.state = .loaded
             })
     }

@@ -69,7 +69,7 @@ class CharacterTableViewCell: UITableViewCell, Configurable {
     
     func addConstraints() {
 
-        self.heightAnchor.constraint(equalToConstant: 110).isActive = true
+        //self.heightAnchor.constraint(equalToConstant: 110).isActive = true
         
         //baseView constraints
         baseView.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true

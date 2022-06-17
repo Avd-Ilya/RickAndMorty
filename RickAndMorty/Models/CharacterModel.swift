@@ -30,6 +30,16 @@ struct CharacterModel {
         image = characterData.image ?? ""
         episode = characterData.episode ?? [""]
     }
+    init(id: Int, name: String, status: String, species: String, gender: String, location: String, image: String, episode: [String]) {
+        self.id = id
+        self.name = name
+        self.status = status
+        self.species = species
+        self.gender = gender
+        self.location = location
+        self.image = image
+        self.episode = episode
+    }
     init() {
         id = 0
         name = ""

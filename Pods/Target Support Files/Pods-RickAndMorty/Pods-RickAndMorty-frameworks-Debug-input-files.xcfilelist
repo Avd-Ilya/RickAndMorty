@@ -1,3 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-RickAndMorty/Pods-RickAndMorty-frameworks.sh
-${BUILT_PRODUCTS_DIR}/CollectionAndTableViewCompatible/CollectionAndTableViewCompatible.framework
-${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework
+${BUILT_PRODUCTS_DIR}/CollectionAndTableViewCompatible-iOS14.0/CollectionAndTableViewCompatible.framework
+${BUILT_PRODUCTS_DIR}/ObjectMapper-iOS14.0/ObjectMapper.framework

@@ -8,15 +8,16 @@
 import Foundation
 import Combine
 
-class CharactersNetworkService {
+class CharactersNetworkService: CharactersNetworkServiceProtocol {
     
     var onCompletion: (([CharacterModel]) -> Void)?
     
-    func fetchCharacters() -> AnyPublisher<[CharacterModel], Never> {
+    func fetchCharacters() -> AnyPublisher<[CharacterModel], Error> {
 
         let urlString = "https://rickandmortyapi.com/api/character"
                
-        guard let url = URL(string: urlString) else { fatalError("invalid URL") }
+        guard let url = URL(string: urlString) else { return Fail(error: NSError(domain: "", code: -1, userInfo: nil))
+            .eraseToAnyPublisher()}
         
         let publisher = URLSession.shared.dataTaskPublisher(for: url)
             .map {$0.data}
@@ -30,12 +31,13 @@ class CharactersNetworkService {
             .catch({_ in
                 Just([])
             })
+            .setFailureType(to: Error.self)
             .eraseToAnyPublisher()
 
         return publisher
     }
     
-    func fetchCharacter(id: Int) -> AnyPublisher<[CharacterModel], Never> {
+    func fetchCharacter(id: Int) -> AnyPublisher<[CharacterModel], Error> {
 
         let urlString = "https://rickandmortyapi.com/api/character/\(id)"
                
@@ -53,6 +55,7 @@ class CharactersNetworkService {
             .catch({_ in
                 Just([])
             })
+            .setFailureType(to: Error.self)
             .eraseToAnyPublisher()
 
         return publisher

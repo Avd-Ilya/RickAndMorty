@@ -10,7 +10,7 @@ import Combine
 
 class CharacterDetailViewModel {
     
-    private let charactersNetworkService = CharactersNetworkService()
+    private let charactersNetworkService: CharactersNetworkServiceProtocol
     public var characterId: Int
     
     @Published var state = State.idle
@@ -43,8 +43,9 @@ class CharacterDetailViewModel {
         }
     }
     
-    init(characterId: Int) {
+    init(characterId: Int, charactersNetworkService: CharactersNetworkServiceProtocol = CharactersNetworkService()) {
         self.characterId = characterId
+        self.charactersNetworkService = charactersNetworkService
     }
     
     func fetchCharacter(id: Int) {
