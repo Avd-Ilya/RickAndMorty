@@ -1,0 +1,6 @@
+framework module CollectionAndTableViewCompatible {
+  umbrella header "CollectionAndTableViewCompatible-iOS14.0-umbrella.h"
+
+  export *
+  module * { export * }
+}

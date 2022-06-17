@@ -1,5 +1,5 @@
 framework module CollectionAndTableViewCompatible {
-  umbrella header "CollectionAndTableViewCompatible-umbrella.h"
+  umbrella header "CollectionAndTableViewCompatible-iOS15.5-umbrella.h"
 
   export *
   module * { export * }
