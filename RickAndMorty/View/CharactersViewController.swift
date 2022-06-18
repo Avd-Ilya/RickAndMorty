@@ -8,16 +8,17 @@
 import UIKit
 import CollectionAndTableViewCompatible
 import Combine
+import RealmSwift
 
 class CharactersViewController: UIViewController {
-        
+    
     var myTableView = UITableView()
     var viewModel = CharacterViewModel()
     private var cancellable = Set<AnyCancellable>()
             
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         self.myTableView = UITableView(frame: view.bounds, style: .plain)
         self.myTableView.delegate = self
         self.myTableView.dataSource = self
@@ -25,15 +26,21 @@ class CharactersViewController: UIViewController {
         view.addSubview(myTableView)
                     
         viewModel.sendEvent(event: .onAppear)
-                
+    }
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
         viewModel.$state
             .removeDuplicates()
             .sink(receiveValue: { [weak self] value in
                 guard let self = self else { return }
-                
                 self.render(state: value)
             })
             .store(in: &cancellable)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func render(state: CharacterViewModel.State) {
@@ -41,12 +48,15 @@ class CharactersViewController: UIViewController {
         case .idle:
             print("idle")
         case .loading:
+            print("Loading local data")
             let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: true)
-            print("Loading data")
         case .loaded:
             let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: false)
             self.myTableView.reloadData()
-            print("Data loaded")
+            print("Local data loaded")
+        case .updated:
+            self.myTableView.reloadData()
+            print("Data loaded From Network")
         case .error(let description):
             let _ = ActivityIndicator.shared.customActivityIndicatory(self.view, startAnimate: false)
             print("ERROR - \(description)")

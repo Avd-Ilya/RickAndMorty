@@ -1,3 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-RickAndMortyTests/Pods-RickAndMortyTests-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/CollectionAndTableViewCompatible-iOS15.5/CollectionAndTableViewCompatible.framework
 ${BUILT_PRODUCTS_DIR}/ObjectMapper-iOS15.5/ObjectMapper.framework
+${BUILT_PRODUCTS_DIR}/Realm-iOS15.5/Realm.framework
+${BUILT_PRODUCTS_DIR}/RealmSwift-iOS15.5/RealmSwift.framework

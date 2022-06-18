@@ -19,6 +19,7 @@
 		096300CA285B64B900DB46DC /* MockCharactersNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096300C9285B64B900DB46DC /* MockCharactersNetworkService.swift */; };
 		09650352281B14FF00A71D0E /* CharacterTableCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09650351281B14FF00A71D0E /* CharacterTableCellModel.swift */; };
 		09650355281B164200A71D0E /* CharacterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09650354281B164200A71D0E /* CharacterTableViewCell.swift */; };
+		098E4EC7285CBF27003AF44E /* CharacterModelRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098E4EC6285CBF27003AF44E /* CharacterModelRealm.swift */; };
 		09A599092852207900E5F21E /* AppFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A599082852207900E5F21E /* AppFlowController.swift */; };
 		09A5990E2852251400E5F21E /* CharactersFlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A5990D2852251400E5F21E /* CharactersFlowController.swift */; };
 		09A5991D285226E600E5F21E /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A5991C285226E600E5F21E /* UIViewControllerExtensions.swift */; };
@@ -57,6 +58,7 @@
 		096300C9285B64B900DB46DC /* MockCharactersNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCharactersNetworkService.swift; sourceTree = "<group>"; };
 		09650351281B14FF00A71D0E /* CharacterTableCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterTableCellModel.swift; sourceTree = "<group>"; };
 		09650354281B164200A71D0E /* CharacterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterTableViewCell.swift; sourceTree = "<group>"; };
+		098E4EC6285CBF27003AF44E /* CharacterModelRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterModelRealm.swift; sourceTree = "<group>"; };
 		09A599082852207900E5F21E /* AppFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowController.swift; sourceTree = "<group>"; };
 		09A5990D2852251400E5F21E /* CharactersFlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersFlowController.swift; sourceTree = "<group>"; };
 		09A5991C285226E600E5F21E /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 			children = (
 				09AA6C98280897EB004B00E1 /* CharacterModel.swift */,
 				090EA276281BF176007E4213 /* CharactersModelDataMap.swift */,
+				098E4EC6285CBF27003AF44E /* CharacterModelRealm.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				09AA6C7B28088894004B00E1 /* CharactersViewController.swift in Sources */,
 				092DE7EF2809A7B40042143F /* DetailsCharactersViewController.swift in Sources */,
 				09A599092852207900E5F21E /* AppFlowController.swift in Sources */,
+				098E4EC7285CBF27003AF44E /* CharacterModelRealm.swift in Sources */,
 				09AA6C7728088894004B00E1 /* AppDelegate.swift in Sources */,
 				09650352281B14FF00A71D0E /* CharacterTableCellModel.swift in Sources */,
 				09A5991D285226E600E5F21E /* UIViewControllerExtensions.swift in Sources */,

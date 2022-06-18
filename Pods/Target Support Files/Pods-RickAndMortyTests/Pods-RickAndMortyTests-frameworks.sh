@@ -177,10 +177,14 @@ code_sign_if_enabled() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/CollectionAndTableViewCompatible-iOS15.5/CollectionAndTableViewCompatible.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ObjectMapper-iOS15.5/ObjectMapper.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Realm-iOS15.5/Realm.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RealmSwift-iOS15.5/RealmSwift.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/CollectionAndTableViewCompatible-iOS15.5/CollectionAndTableViewCompatible.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ObjectMapper-iOS15.5/ObjectMapper.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Realm-iOS15.5/Realm.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RealmSwift-iOS15.5/RealmSwift.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

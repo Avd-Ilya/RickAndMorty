@@ -7,8 +7,22 @@
 
 import Foundation
 import Combine
+import RealmSwift
 
 class CharacterDetailViewModel {
+    
+    var localRealm: Realm {
+        get {
+            do {
+                let realm = try Realm()
+                return realm
+            }
+            catch let error{
+                self.state = .error(error.localizedDescription)
+            }
+            return self.localRealm
+        }
+    }
     
     private let charactersNetworkService: CharactersNetworkServiceProtocol
     public var characterId: Int
@@ -49,6 +63,22 @@ class CharacterDetailViewModel {
     }
     
     func fetchCharacter(id: Int) {
+        do {
+            try localRealm.write {
+                let charactersModelFromLocal = localRealm.objects(CharacterModelRealm.self)
+                
+                if let characterModelRealm = charactersModelFromLocal.where({ $0.id == characterId }).first {
+                    if let characterModel = CharacterModel(charactersModelRealm: characterModelRealm) {
+                        self.state = .loaded(characterModel)
+                    }
+                }
+            }
+        } catch let error {
+            self.state = .error(error.localizedDescription)
+        }
+    }
+    
+    func fetchCharacterWithNetwork(id: Int) {
         self.state = .loading
         self.cancellable = self.charactersNetworkService.fetchCharacter(id: id)
             .receive(on: DispatchQueue.main)

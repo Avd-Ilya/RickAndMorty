@@ -4,6 +4,7 @@
 def shared_pods
   pod "CollectionAndTableViewCompatible"
   pod 'ObjectMapper', '~> 3.5'
+  pod 'RealmSwift'
 end
 
 target 'RickAndMorty' do
